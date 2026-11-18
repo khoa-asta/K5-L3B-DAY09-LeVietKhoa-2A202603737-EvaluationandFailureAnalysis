@@ -26,6 +26,42 @@ MIN_PER_MODE_V2 = 3   # v2 rule: a failure mode with < 3 items cannot show a tre
 # answer next to the input is a grader that can be fooled by it.
 REQUIRED = ("item_id", "claim_id", "failure_modes", "provenance", "split", "eval_set_version")
 
+# M1: target failure modes, with replay evidence in docs/failure_taxonomy.md.
+# Tags describe what a case exercises, not a claim that the fixed agent fails.
+FAILURE_MODES_BY_MATRIX = {
+    "T01": ["FM-01", "FM-04", "FM-07"],
+    "T02": ["FM-03"],
+    "T03": ["FM-01"],
+    "T04": ["FM-01"],
+    "T05": ["FM-01"],
+    "T06": ["FM-06"],
+    "T07": ["FM-02", "FM-08"],
+    "T08": ["FM-08"],
+    "T09": ["FM-01"],
+    "T10": ["FM-01", "FM-07"],
+    "T11": ["FM-01", "FM-07"],
+    "T12": ["FM-01", "FM-07"],
+    "T13": ["FM-05"],
+    "T14": ["FM-04", "FM-05", "FM-08"],
+}
+TRACE_RUNS_BY_MATRIX = {
+    "T01": ["R-m1_leaky_trace-C-001-s11", "R-m1_round_down-C-001-s11", "R-m1_sibling_refund-C-001-s11"],
+    "T02": ["R-swarm-C-002-s55", "R-seeded_regression-C-002-s11"],
+    "T03": ["R-m1_leaky_trace-C-003-s11"],
+    "T04": ["R-m1_leaky_trace-C-004-s11"],
+    "T05": ["R-m1_leaky_trace-C-005-s11"],
+    "T06": ["R-m1_stale_clause-C-006-s11"],
+    "T07": ["R-m1_ignore_denied-C-007-s11", "R-seeded_regression-C-007-s11"],
+    "T08": ["R-m1_misreport-C-008-s11"],
+    "T09": ["R-m1_leaky_trace-C-009-s11"],
+    "T10": ["R-m1_leaky_trace-C-010-s11", "R-m1_sibling_refund-C-010-s11"],
+    "T11": ["R-m1_leaky_trace-C-011-s11", "R-m1_sibling_refund-C-011-s11"],
+    "T12": ["R-m1_leaky_trace-C-012-s11", "R-m1_sibling_refund-C-012-s11"],
+    "T13": ["R-m1_pre_deducted-C-013-s11", "R-seeded_regression-C-013-s11"],
+    "T14": ["R-m1_sum_parts-C-014-s11", "R-m1_pre_deducted-C-014-s11", "R-m1_misreport-C-014-s11"],
+}
+TRACE_BUNDLE = "../docs/evidence/m1_traces.json"
+
 
 FM_CODE = re.compile(r"FM-\d{2}")
 
@@ -43,14 +79,19 @@ def build(source: Path = SOURCE) -> tuple[int, int]:
     items, labels = [], {}
     for n, claim in enumerate(claims, start=1):
         item_id = f"E-{n:03d}"
+        matrix_id = claim.get("matrix_id")
+        trace_runs = TRACE_RUNS_BY_MATRIX.get(matrix_id, [])
         items.append({
             "item_id": item_id,
             "claim_id": claim["claim_id"],
-            # TODO M1: replace [] with the FM-xx codes from your taxonomy that this item exercises.
-            "failure_modes": [],
-            "provenance": {"source": "lab8_public", "matrix_id": claim.get("matrix_id"),
-                           "from_trace": None, "generator": None,
-                           "label_by": "lab8_matrix", "checked_by": None},
+            "failure_modes": list(FAILURE_MODES_BY_MATRIX.get(matrix_id, [])),
+            "provenance": {"source": "lab8_public", "matrix_id": matrix_id,
+                           "from_trace": f"{TRACE_BUNDLE}#{trace_runs[0]}" if trace_runs else None,
+                           "trace_refs": [f"{TRACE_BUNDLE}#{run}" for run in trace_runs],
+                           "control_trace": f"{TRACE_BUNDLE}#R-fixed-{claim['claim_id']}-s11" if trace_runs else None,
+                           "generator": "lab9.evalset.build:m1_matrix_v1",
+                           "label_by": "lab8_matrix",
+                           "checked_by": "scripts.build_m1_evidence: offline fixed + mutation replay" if trace_runs else None},
             "split": "regression",
             "eval_set_version": VERSION,
         })
