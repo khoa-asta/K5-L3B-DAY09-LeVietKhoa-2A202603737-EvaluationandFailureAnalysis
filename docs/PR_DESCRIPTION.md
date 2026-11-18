@@ -28,6 +28,21 @@ gate: PR E-seeded_regression-20261118-fc7f vs main E-swarm-20261118-fc7f · eval
 exit 1 — blocked: refund_amount_correct, reply_amount_correct, pass_rate
 ```
 
-Giới hạn: MockLLM/public replay, 14 item, baseline swarm không phát event reply; chưa đối chiếu anchor key riêng, chưa làm Advanced/Expert. Trạng thái GitHub CI và merge cần được kiểm trên PR.
+Giới hạn: MockLLM/public replay, 14 item, baseline swarm không phát event reply; chưa đối chiếu anchor key riêng, M5 đã hoàn thành local, M6–M7 còn chờ. Trạng thái GitHub CI và merge cần được kiểm trên PR.
 
 Đích PR: `khoa-asta/K5-L3B-DAY09-LeVietKhoa-2A202603737-EvaluationandFailureAnalysis`, nhánh làm bài → `main` trong cùng bản fork.
+
+## M5 — Eval set v2 và slice gate
+
+Eval set v2 SHA `03a8cc19dece` có 28 item (14 regression + 14 adversarial), chạy 5 seed/item, metric spec 2.1. Chi tiết và trace: [M5 validation](m5_evalset_and_slices.md).
+
+| Shape | Run ID | pass_rate toàn bộ | money_movement | adversarial | Gate exit |
+|---|---|---|---|---|---|
+| baseline | `E-swarm-20261118-03a8` | 0.9786 | 1.0000 | 0.9714 | 0 |
+| fixed | `E-fixed-20261118-03a8` | 1.0000 | 1.0000 | 1.0000 | 0 |
+| honest_refactor | `E-honest_refactor-20261118-03a8` | 1.0000 | 1.0000 | 1.0000 | 0 |
+| slice_regression | `E-slice_regression-20261118-03a8` | 0.9357 | 0.8500 | 0.9143 | 1 |
+
+Global pass_rate của slice_regression có Δ -0.043, CI [-0.121, +0.029], vẫn qua sàn 0.85; CI còn chứa 0. Slice money_movement có 12 item, đạt 0.85 < sàn 0.90 nên chặn. Bỏ slices khỏi cùng spec thì gate cho qua; giữ slices thì chỉ `slice:money_movement/pass_rate` bị chặn. Fixed và honest_refactor đều qua.
+
+Bằng chứng mới tách riêng tại [m5_slice_validation.json](evidence/m5_slice_validation.json); các report và eval set v1 giữ nguyên. M6 (pass@k/pass^k, A/A) và M7 (integrity/ratchet) chưa hoàn thành; giá trị pass@k/pass^k trong report v2 hiện là null. Việc có baseline_v2 sẽ bật job advanced khi đẩy lên GitHub; chưa có kết quả CI advanced xanh trong bằng chứng M5 này.

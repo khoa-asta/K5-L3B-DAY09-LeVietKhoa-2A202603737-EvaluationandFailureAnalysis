@@ -65,3 +65,18 @@ Pilot nội bộ offline cho claim hoàn phí giao trễ hoặc hàng hỏng đ�
 ## Khi nào tăng phiên bản
 
 Thêm/sửa item, provenance hoặc nhãn làm đổi nội dung eval set thì phát hành eval-set version mới và sinh lại baseline phù hợp; không so report khác SHA. Thay metric/ngưỡng thì tăng metric-spec version; cùng eval-set version chỉ giữ hoặc siết ngưỡng. Từ spec starter 1.0 sang 1.1 đã thêm hai metric M3, không nới các ngưỡng cũ.
+
+## M5 — Eval set v2 và slice gate
+
+Eval set v2 SHA `03a8cc19dece` có 28 item (14 regression + 14 adversarial), chạy 5 seed/item, metric spec 2.1. Chi tiết và trace: [M5 validation](m5_evalset_and_slices.md).
+
+| Shape | Run ID | pass_rate toàn bộ | money_movement | adversarial | Gate exit |
+|---|---|---|---|---|---|
+| baseline | `E-swarm-20261118-03a8` | 0.9786 | 1.0000 | 0.9714 | 0 |
+| fixed | `E-fixed-20261118-03a8` | 1.0000 | 1.0000 | 1.0000 | 0 |
+| honest_refactor | `E-honest_refactor-20261118-03a8` | 1.0000 | 1.0000 | 1.0000 | 0 |
+| slice_regression | `E-slice_regression-20261118-03a8` | 0.9357 | 0.8500 | 0.9143 | 1 |
+
+Global pass_rate của slice_regression có Δ -0.043, CI [-0.121, +0.029], vẫn qua sàn 0.85; CI còn chứa 0. Slice money_movement có 12 item, đạt 0.85 < sàn 0.90 nên chặn. Bỏ slices khỏi cùng spec thì gate cho qua; giữ slices thì chỉ `slice:money_movement/pass_rate` bị chặn. Fixed và honest_refactor đều qua.
+
+Bằng chứng mới tách riêng tại [m5_slice_validation.json](evidence/m5_slice_validation.json); các report và eval set v1 giữ nguyên. M6 (pass@k/pass^k, A/A) và M7 (integrity/ratchet) chưa hoàn thành; giá trị pass@k/pass^k trong report v2 hiện là null. Việc có baseline_v2 sẽ bật job advanced khi đẩy lên GitHub; chưa có kết quả CI advanced xanh trong bằng chứng M5 này.

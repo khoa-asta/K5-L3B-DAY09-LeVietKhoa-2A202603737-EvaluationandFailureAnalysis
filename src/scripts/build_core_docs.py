@@ -204,6 +204,9 @@ Giới hạn: MockLLM/public replay, 14 item, baseline swarm không phát event 
 """
     (DOCS / "PR_DESCRIPTION.md").write_text(description, encoding="utf-8")
     print("wrote docs/eval_card.md, docs/PRD_v1.1.md, docs/PR_DESCRIPTION.md from M2-M4 evidence")
+    if (DOCS / "evidence/m5_slice_validation.json").is_file():
+        from scripts.build_m5_docs import main as build_m5_docs
+        build_m5_docs()
 
 
 if __name__ == "__main__":

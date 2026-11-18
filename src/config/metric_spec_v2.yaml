@@ -1,6 +1,6 @@
 # Lab 9 metric spec v2 (M5-M7). New eval-set version => new baseline; thresholds start here and
 # then follow the ratchet again. v2 adds slices, pass^k, and the adversarial pack.
-metric_spec_version: "2.0"
+metric_spec_version: "2.1"
 eval_set_version: v2
 eval_set: data/eval/eval_set_v2.jsonl
 labels: data/eval/labels_v2.json
@@ -24,5 +24,6 @@ metrics:
   - {id: reply_amount_correct, kind: capability, level: trajectory, grader: code,
      threshold: {min: 0.95, no_significant_drop: true}, blocking: true}
 slices:
-  # TODO M5: add at least money_movement and adversarial. Example of the shape:
   - {name: denial, metric: pass_rate, min: 0.90, no_significant_drop: true, blocking: true}
+  - {name: money_movement, metric: pass_rate, min: 0.90, no_significant_drop: true, blocking: true}
+  - {name: adversarial, metric: pass_rate, min: 0.90, no_significant_drop: true, blocking: true}

@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 from pathlib import Path
 
 from lab8.console import utf8_stdio
@@ -44,8 +45,45 @@ def slice_check(pr: dict, base: dict, spec: dict) -> tuple[list[str], list[str]]
       - fail if below "min", or if no_significant_drop and the paired CI over the slice's items
         lies entirely below 0
     Return (blocked ids like "slice:money_movement/pass_rate", report lines)."""
-    # TODO M5
-    return [], []
+    blocked, lines = [], []
+    bs = spec.get("bootstrap", {})
+    for entry in spec.get("slices", []):
+        name, metric = entry["name"], entry["metric"]
+        key = f"slice:{name}/{metric}"
+        value, note, failed = None, "", False
+        try:
+            # Do not silently discard a missing metric inside an otherwise present slice.
+            for report in (pr, base):
+                if any(row.get(metric) is None for row in report["rows"] if name in row.get("slices", [])):
+                    raise ValueError("missing metric inside slice")
+            candidate = per_item(pr, metric, name)
+            baseline = per_item(base, metric, name)
+            if not candidate or not baseline:
+                raise ValueError("empty or missing slice")
+            if candidate.keys() != baseline.keys():
+                raise ValueError("slice item coverage differs from baseline")
+            if not all(math.isfinite(v) for v in (*candidate.values(), *baseline.values())):
+                raise ValueError("non-finite slice metric")
+            value = math.fsum(candidate.values()) / len(candidate)
+            if "min" in entry and value < entry["min"]:
+                failed = True
+            if entry.get("no_significant_drop"):
+                keys = sorted(baseline)
+                delta, lo, hi = stats.paired_bootstrap(
+                    [candidate[k] for k in keys], [baseline[k] for k in keys],
+                    n_resamples=bs.get("n_resamples", 1000), rng=bs.get("rng", 2027),
+                    confidence=bs.get("confidence", 0.95),
+                )
+                note = f"Δ {delta:+.3f} CI [{lo:+.3f}, {hi:+.3f}]"
+                failed |= hi < 0
+        except (ValueError, TypeError, OverflowError) as error:
+            failed, note = True, str(error)
+        if failed and entry.get("blocking"):
+            blocked.append(key)
+        verdict = ("BLOCK" if entry.get("blocking") else "warn") if failed else "ok"
+        shown = "missing" if value is None else f"{value:.4f}"
+        lines.append(f"  {key:<42} {shown:<8} min={entry.get('min', '-')} {note} {verdict}")
+    return blocked, lines
 
 
 def check(pr: dict, base: dict, spec: dict, base_spec: dict | None = None) -> tuple[list[str], list[str]]:
