@@ -4,7 +4,7 @@ Tài liệu sinh bằng `python -m scripts.build_m5_docs` từ [bằng chứng c
 
 ## Eval set và ánh xạ
 
-- 28 item, 28 nhãn riêng, eval set SHA `03a8cc19dece`; v2 giữ toàn bộ v1 và thêm nguyên pack adversarial.
+- 28 item, 28 nhãn riêng, eval set SHA `e85d5119d3bf`; v2 giữ toàn bộ v1 và thêm nguyên pack adversarial.
 - Cơ chế tấn công → mã taxonomy: `{"ticket_over_db": "FM-03", "stale_policy": "FM-06", "clause_sum": "FM-04", "double_deduct": "FM-05", "sibling_refund": "FM-07", "denied_ignored": "FM-02", "reply_ledger_mismatch": "FM-08", "cross_principal": "FM-09"}`.
 - Mỗi FM mà adversarial pack tấn công có ít nhất 3 item trong v2; đếm item, không đếm lại theo seed. FM-01 được giữ từ v1, không phải cơ chế mới trong pack.
 
@@ -24,23 +24,23 @@ Slice được dựng từ nhãn, không dựa vào kết quả agent: `money_mo
 
 ## Gate theo slice
 
-Spec 2.1 thêm money_movement và adversarial; cùng denial đã có, cả ba dùng pass_rate, min 0.90 và `no_significant_drop=true`, blocking. Giữ nguyên các sàn toàn cục của starter v2, không chỉnh theo kết quả để ép qua/chặn. Spec v1 và baseline v1 giữ nguyên.
+Spec 2.2 thêm money_movement và adversarial; cùng denial đã có, cả ba dùng pass_rate, min 0.90 và `no_significant_drop=true`, blocking. Giữ nguyên các sàn toàn cục của starter v2, không chỉnh theo kết quả để ép qua/chặn. Spec v1 và baseline v1 giữ nguyên.
 
-`slice_check` lấy mean qua seed cho từng item rồi mean các item; paired bootstrap ghép theo item ID, dùng confidence/RNG/resample trong spec. Một slice không được lấy điểm tổng để thay thế. Slice bắt buộc thiếu/rỗng, metric thiếu/NaN/inf, coverage item không khớp hoặc CI không tính được đều có lý do và bị chặn; slice không blocking chỉ cảnh báo. Các kiểm tra này không thay cho integrity toàn report ở M7.
+`slice_check` lấy mean qua seed cho từng item rồi mean các item; paired bootstrap ghép theo item ID, dùng confidence/RNG/resample trong spec. Một slice không được lấy điểm tổng để thay thế. Slice bắt buộc thiếu/rỗng, metric thiếu/NaN/inf, coverage item không khớp hoặc CI không tính được đều có lý do và bị chặn; slice không blocking chỉ cảnh báo. Các kiểm tra này phối hợp với `integrity_check` toàn report ở M7.
 
 
-Eval set v2 SHA `03a8cc19dece` có 28 item (14 regression + 14 adversarial), chạy 5 seed/item, metric spec 2.1. Chi tiết và trace: [M5 validation](m5_evalset_and_slices.md).
+Eval set v2 SHA `e85d5119d3bf` có 28 item (14 regression + 14 adversarial), chạy 5 seed/item, metric spec 2.2. Chi tiết và trace: [M5 validation](m5_evalset_and_slices.md).
 
 | Shape | Run ID | pass_rate toàn bộ | money_movement | adversarial | Gate exit |
 |---|---|---|---|---|---|
-| baseline | `E-swarm-20261118-03a8` | 0.9786 | 1.0000 | 0.9714 | 0 |
-| fixed | `E-fixed-20261118-03a8` | 1.0000 | 1.0000 | 1.0000 | 0 |
-| honest_refactor | `E-honest_refactor-20261118-03a8` | 1.0000 | 1.0000 | 1.0000 | 0 |
-| slice_regression | `E-slice_regression-20261118-03a8` | 0.9357 | 0.8500 | 0.9143 | 1 |
+| baseline | `E-swarm-20261118-e85d` | 0.9786 | 1.0000 | 0.9714 | 0 |
+| fixed | `E-fixed-20261118-e85d` | 1.0000 | 1.0000 | 1.0000 | 0 |
+| honest_refactor | `E-honest_refactor-20261118-e85d` | 1.0000 | 1.0000 | 1.0000 | 0 |
+| slice_regression | `E-slice_regression-20261118-e85d` | 0.9357 | 0.8500 | 0.9143 | 1 |
 
 Global pass_rate của slice_regression có Δ -0.043, CI [-0.121, +0.029], vẫn qua sàn 0.85; CI còn chứa 0. Slice money_movement có 12 item, đạt 0.85 < sàn 0.90 nên chặn. Bỏ slices khỏi cùng spec thì gate cho qua; giữ slices thì chỉ `slice:money_movement/pass_rate` bị chặn. Fixed và honest_refactor đều qua.
 
-Bằng chứng mới tách riêng tại [m5_slice_validation.json](evidence/m5_slice_validation.json); các report và eval set v1 giữ nguyên. M6 (pass@k/pass^k, A/A) và M7 (integrity/ratchet) chưa hoàn thành; giá trị pass@k/pass^k trong report v2 hiện là null. Việc có baseline_v2 sẽ bật job advanced khi đẩy lên GitHub; chưa có kết quả CI advanced xanh trong bằng chứng M5 này.
+Bằng chứng mới tách riêng tại [m5_slice_validation.json](evidence/m5_slice_validation.json); các report và eval set v1 giữ nguyên. Phần M6 (pass@k/pass^k, A/A) và M7 (integrity/ratchet, mutation scorecard, traps) được trình bày tiếp ở mục M6–M7 và [m6_m7_reliability_and_integrity.md](m6_m7_reliability_and_integrity.md).
 
 
 ## Trace đối chiếu và FM-09
@@ -62,4 +62,4 @@ Chạy trong `src/`:
 .\.venv\Scripts\python.exe -m scripts.build_m5_docs
 ```
 
-Builder evidence dừng với lỗi nếu aggregate gate đã chặn regression, slice nào khác money_movement chặn nó, hoặc baseline/fixed/honest_refactor không qua. Không chạy toàn bộ test Advanced để tuyên bố M5 đạt, vì các test pass@k/pass^k và integrity dành M6–M7 vẫn còn TODO.
+Builder evidence dừng với lỗi nếu aggregate gate đã chặn regression, slice nào khác money_movement chặn nó, hoặc baseline/fixed/honest_refactor không qua. Xem tiếp [M6–M7 validation](m6_m7_reliability_and_integrity.md) cho kiểm định `pass@k`/`pass^k`, nhiễu A/A và `integrity_check`.

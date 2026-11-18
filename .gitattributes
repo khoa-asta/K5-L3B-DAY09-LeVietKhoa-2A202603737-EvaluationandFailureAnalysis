@@ -1,0 +1,2 @@
+# Eval-set hashes must survive Windows/Linux checkout unchanged.
+src/data/eval/eval_set_*.jsonl text eol=lf

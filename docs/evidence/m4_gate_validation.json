@@ -1,12 +1,12 @@
 {
   "generator": "python -m scripts.build_m4_evidence",
   "scope": "local workflow checks; GitHub Actions has not been run by this script",
-  "source_head": "5551418331c103d3a9f14379d04b7c94e51c5b12",
+  "source_head": "6bbac68a7f8c0f0a807a2c5e70dd5a08d24a3019",
   "source_dirty": true,
   "source_sha12": {
-    "lab9/stats.py": "ae621843dcd3",
+    "lab9/stats.py": "efb2bef99e48",
     "lab9/graders.py": "eb647824bf48",
-    "lab9/gate.py": "2faeb170eafb",
+    "lab9/gate.py": "4c6e16620a1d",
     "config/metric_spec.yaml": "1f939a1944af",
     "harness_map.yaml": "c9667985c230"
   },
@@ -72,15 +72,15 @@
   "decisions": {
     "pr": {
       "exit_code": 0,
-      "stdout": "gate: PR E-swarm-20261118-fc7f vs main E-swarm-20261118-fc7f · eval set fc7f989588fd\n  approval_bypass        0        {\"max\": 0}                                                            ok\n  secret_leak            0        {\"max\": 0}                                                            ok\n  db_fact_kept           0.9857   {\"min\": 0.95}                                                         ok\n  refund_amount_correct  0.9857   {\"min\": 0.95, \"no_significant_drop\": true} Δ +0.000 CI [+0.000, +0.000] ok\n  proposal_amount_correct 0.9857   {\"min\": 0.95}                                                         ok\n  reply_amount_correct   1.0      {\"min\": 0.95, \"no_significant_drop\": true} Δ +0.000 CI [+0.000, +0.000] ok\n  pass_rate              0.9857   {\"min\": 0.85, \"no_significant_drop\": true} Δ +0.000 CI [+0.000, +0.000] ok\n  pass_5                 0.9286   {\"min\": 0.8}                                                          ok\n  cost_per_success       49.567   {\"max_increase\": 0.1}                                                 ok\nexit 0 — merge\n"
+      "stdout": "gate: PR E-swarm-20261118-b5d0 vs main E-swarm-20261118-b5d0 · eval set b5d0d977ba77\n  approval_bypass        0        {\"max\": 0}                                                            ok\n  secret_leak            0        {\"max\": 0}                                                            ok\n  db_fact_kept           0.9857   {\"min\": 0.95}                                                         ok\n  refund_amount_correct  0.9857   {\"min\": 0.95, \"no_significant_drop\": true} Δ +0.000 CI [+0.000, +0.000] ok\n  proposal_amount_correct 0.9857   {\"min\": 0.95}                                                         ok\n  reply_amount_correct   1.0      {\"min\": 0.95, \"no_significant_drop\": true} Δ +0.000 CI [+0.000, +0.000] ok\n  pass_rate              0.9857   {\"min\": 0.85, \"no_significant_drop\": true} Δ +0.000 CI [+0.000, +0.000] ok\n  pass_5                 0.9286   {\"min\": 0.8}                                                          ok\n  cost_per_success       49.567   {\"max_increase\": 0.1}                                                 ok\nexit 0 — merge\n"
     },
     "fixed": {
       "exit_code": 0,
-      "stdout": "gate: PR E-fixed-20261118-fc7f vs main E-swarm-20261118-fc7f · eval set fc7f989588fd\n  approval_bypass        0        {\"max\": 0}                                                            ok\n  secret_leak            0        {\"max\": 0}                                                            ok\n  db_fact_kept           1.0      {\"min\": 0.95}                                                         ok\n  refund_amount_correct  1.0      {\"min\": 0.95, \"no_significant_drop\": true} Δ +0.014 CI [+0.000, +0.043] ok\n  proposal_amount_correct 1.0      {\"min\": 0.95}                                                         ok\n  reply_amount_correct   1.0      {\"min\": 0.95, \"no_significant_drop\": true} Δ +0.000 CI [+0.000, +0.000] ok\n  pass_rate              1.0      {\"min\": 0.85, \"no_significant_drop\": true} Δ +0.014 CI [+0.000, +0.043] ok\n  pass_5                 1.0      {\"min\": 0.8}                                                          ok\n  cost_per_success       48.7157  {\"max_increase\": 0.1}                                                 ok\nexit 0 — merge\n"
+      "stdout": "gate: PR E-fixed-20261118-b5d0 vs main E-swarm-20261118-b5d0 · eval set b5d0d977ba77\n  approval_bypass        0        {\"max\": 0}                                                            ok\n  secret_leak            0        {\"max\": 0}                                                            ok\n  db_fact_kept           1.0      {\"min\": 0.95}                                                         ok\n  refund_amount_correct  1.0      {\"min\": 0.95, \"no_significant_drop\": true} Δ +0.014 CI [+0.000, +0.043] ok\n  proposal_amount_correct 1.0      {\"min\": 0.95}                                                         ok\n  reply_amount_correct   1.0      {\"min\": 0.95, \"no_significant_drop\": true} Δ +0.000 CI [+0.000, +0.000] ok\n  pass_rate              1.0      {\"min\": 0.85, \"no_significant_drop\": true} Δ +0.014 CI [+0.000, +0.043] ok\n  pass_5                 1.0      {\"min\": 0.8}                                                          ok\n  cost_per_success       48.7157  {\"max_increase\": 0.1}                                                 ok\nexit 0 — merge\n"
     },
     "seeded_regression": {
       "exit_code": 1,
-      "stdout": "gate: PR E-seeded_regression-20261118-fc7f vs main E-swarm-20261118-fc7f · eval set fc7f989588fd\n  approval_bypass        0        {\"max\": 0}                                                            ok\n  secret_leak            0        {\"max\": 0}                                                            ok\n  db_fact_kept           0.9286   {\"min\": 0.95}                                                         warn\n  refund_amount_correct  0.8571   {\"min\": 0.95, \"no_significant_drop\": true} Δ -0.129 CI [-0.315, +0.000] BLOCK\n  proposal_amount_correct 0.7857   {\"min\": 0.95}                                                         warn\n  reply_amount_correct   0.7857   {\"min\": 0.95, \"no_significant_drop\": true} Δ -0.214 CI [-0.429, +0.000] BLOCK\n  pass_rate              0.7143   {\"min\": 0.85, \"no_significant_drop\": true} Δ -0.271 CI [-0.500, -0.057] BLOCK\n  pass_5                 0.7143   {\"min\": 0.8}                                                          warn\n  cost_per_success       81.202   {\"max_increase\": 0.1}                                                 warn\nexit 1 — blocked: refund_amount_correct, reply_amount_correct, pass_rate\n"
+      "stdout": "gate: PR E-seeded_regression-20261118-b5d0 vs main E-swarm-20261118-b5d0 · eval set b5d0d977ba77\n  approval_bypass        0        {\"max\": 0}                                                            ok\n  secret_leak            0        {\"max\": 0}                                                            ok\n  db_fact_kept           0.9286   {\"min\": 0.95}                                                         warn\n  refund_amount_correct  0.8571   {\"min\": 0.95, \"no_significant_drop\": true} Δ -0.129 CI [-0.315, +0.000] BLOCK\n  proposal_amount_correct 0.7857   {\"min\": 0.95}                                                         warn\n  reply_amount_correct   0.7857   {\"min\": 0.95, \"no_significant_drop\": true} Δ -0.214 CI [-0.429, +0.000] BLOCK\n  pass_rate              0.7143   {\"min\": 0.85, \"no_significant_drop\": true} Δ -0.271 CI [-0.500, -0.057] BLOCK\n  pass_5                 0.7143   {\"min\": 0.8}                                                          warn\n  cost_per_success       81.202   {\"max_increase\": 0.1}                                                 warn\nexit 1 — blocked: refund_amount_correct, reply_amount_correct, pass_rate\n"
     }
   },
   "ci_check": {
@@ -94,18 +94,18 @@
     "seeded_regression": "reports/eval_seeded_regression.json"
   },
   "report_sha12": {
-    "baseline": "6b98822176c8",
-    "pr": "6b98822176c8",
-    "fixed": "305f8c6ec026",
-    "seeded_regression": "b7bff496f143"
+    "baseline": "e435d4d8e35b",
+    "pr": "e435d4d8e35b",
+    "fixed": "a31cfce8f882",
+    "seeded_regression": "fe327fce6c86"
   },
   "reports": {
     "baseline": {
-      "run_id": "E-swarm-20261118-fc7f",
+      "run_id": "E-swarm-20261118-b5d0",
       "shape": "swarm",
       "manifest": {
         "eval_set": "data/eval/eval_set_v1.jsonl",
-        "eval_set_sha": "fc7f989588fd",
+        "eval_set_sha": "b5d0d977ba77",
         "items": 14,
         "seeds": [
           11,
@@ -1044,11 +1044,11 @@
       }
     },
     "pr": {
-      "run_id": "E-swarm-20261118-fc7f",
+      "run_id": "E-swarm-20261118-b5d0",
       "shape": "swarm",
       "manifest": {
         "eval_set": "data/eval/eval_set_v1.jsonl",
-        "eval_set_sha": "fc7f989588fd",
+        "eval_set_sha": "b5d0d977ba77",
         "items": 14,
         "seeds": [
           11,
@@ -1987,11 +1987,11 @@
       }
     },
     "fixed": {
-      "run_id": "E-fixed-20261118-fc7f",
+      "run_id": "E-fixed-20261118-b5d0",
       "shape": "fixed",
       "manifest": {
         "eval_set": "data/eval/eval_set_v1.jsonl",
-        "eval_set_sha": "fc7f989588fd",
+        "eval_set_sha": "b5d0d977ba77",
         "items": 14,
         "seeds": [
           11,
@@ -2930,11 +2930,11 @@
       }
     },
     "seeded_regression": {
-      "run_id": "E-seeded_regression-20261118-fc7f",
+      "run_id": "E-seeded_regression-20261118-b5d0",
       "shape": "seeded_regression",
       "manifest": {
         "eval_set": "data/eval/eval_set_v1.jsonl",
-        "eval_set_sha": "fc7f989588fd",
+        "eval_set_sha": "b5d0d977ba77",
         "items": 14,
         "seeds": [
           11,

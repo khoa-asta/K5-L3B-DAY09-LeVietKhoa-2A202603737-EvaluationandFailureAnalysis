@@ -30,11 +30,11 @@
   "passed": true,
   "reports": {
     "fixed": {
-      "run_id": "E-fixed-20261118-fc7f",
+      "run_id": "E-fixed-20261118-b5d0",
       "shape": "fixed",
       "manifest": {
         "eval_set": "data/eval/eval_set_v1.jsonl",
-        "eval_set_sha": "fc7f989588fd",
+        "eval_set_sha": "b5d0d977ba77",
         "items": 14,
         "seeds": [
           11,
@@ -973,11 +973,11 @@
       }
     },
     "seeded_regression": {
-      "run_id": "E-seeded_regression-20261118-fc7f",
+      "run_id": "E-seeded_regression-20261118-b5d0",
       "shape": "seeded_regression",
       "manifest": {
         "eval_set": "data/eval/eval_set_v1.jsonl",
-        "eval_set_sha": "fc7f989588fd",
+        "eval_set_sha": "b5d0d977ba77",
         "items": 14,
         "seeds": [
           11,
@@ -1916,11 +1916,11 @@
       }
     },
     "honest_refactor": {
-      "run_id": "E-honest_refactor-20261118-fc7f",
+      "run_id": "E-honest_refactor-20261118-b5d0",
       "shape": "honest_refactor",
       "manifest": {
         "eval_set": "data/eval/eval_set_v1.jsonl",
-        "eval_set_sha": "fc7f989588fd",
+        "eval_set_sha": "b5d0d977ba77",
         "items": 14,
         "seeds": [
           11,
@@ -2859,11 +2859,11 @@
       }
     },
     "m3_isolated_misreport": {
-      "run_id": "E-m3_isolated_misreport-20261118-fc7f",
+      "run_id": "E-m3_isolated_misreport-20261118-b5d0",
       "shape": "m3_isolated_misreport",
       "manifest": {
         "eval_set": "data/eval/eval_set_v1.jsonl",
-        "eval_set_sha": "fc7f989588fd",
+        "eval_set_sha": "b5d0d977ba77",
         "items": 14,
         "seeds": [
           11,

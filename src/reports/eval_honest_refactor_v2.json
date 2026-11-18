@@ -1,9 +1,9 @@
 {
-  "run_id": "E-honest_refactor-20261118-03a8",
+  "run_id": "E-honest_refactor-20261118-e85d",
   "shape": "honest_refactor",
   "manifest": {
     "eval_set": "data/eval/eval_set_v2.jsonl",
-    "eval_set_sha": "03a8cc19dece",
+    "eval_set_sha": "e85d5119d3bf",
     "items": 28,
     "seeds": [
       11,
@@ -12,7 +12,7 @@
       44,
       55
     ],
-    "metric_spec_version": "2.1",
+    "metric_spec_version": "2.2",
     "llm": "MockLLM",
     "python": "3.13.18"
   },
@@ -2188,12 +2188,12 @@
     "proposal_amount_correct": 1.0,
     "reply_amount_correct": 1.0,
     "pass_5": 1.0,
-    "pass_at_1": null,
-    "pass_hat_1": null,
-    "pass_at_3": null,
-    "pass_hat_3": null,
-    "pass_at_5": null,
-    "pass_hat_5": null,
+    "pass_at_1": 1.0,
+    "pass_hat_1": 1.0,
+    "pass_at_3": 1.0,
+    "pass_hat_3": 1.0,
+    "pass_at_5": 1.0,
+    "pass_hat_5": 1.0,
     "cost_per_success": 57.7186
   }
 }

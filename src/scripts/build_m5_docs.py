@@ -43,7 +43,7 @@ Eval set v2 SHA `{evidence['eval_set_sha12']}` có {len(items)} item ({len(items
 
 Global pass_rate của slice_regression có Δ {delta:+.3f}, CI [{lo:+.3f}, {hi:+.3f}], vẫn qua sàn {next(m['threshold']['min'] for m in spec['metrics'] if m['id']=='pass_rate')}; CI còn chứa 0. Slice money_movement có {evidence['slice_counts']['money_movement']} item, đạt {values['slice_regression']['money_movement']:.2f} < sàn 0.90 nên chặn. Bỏ slices khỏi cùng spec thì gate cho qua; giữ slices thì chỉ `slice:money_movement/pass_rate` bị chặn. Fixed và honest_refactor đều qua.
 
-Bằng chứng mới tách riêng tại [m5_slice_validation.json](evidence/m5_slice_validation.json); các report và eval set v1 giữ nguyên. M6 (pass@k/pass^k, A/A) và M7 (integrity/ratchet) chưa hoàn thành; giá trị pass@k/pass^k trong report v2 hiện là null. Việc có baseline_v2 sẽ bật job advanced khi đẩy lên GitHub; chưa có kết quả CI advanced xanh trong bằng chứng M5 này.
+Bằng chứng mới tách riêng tại [m5_slice_validation.json](evidence/m5_slice_validation.json); các report và eval set v1 giữ nguyên. Phần M6 (pass@k/pass^k, A/A) và M7 (integrity/ratchet, mutation scorecard, traps) được trình bày tiếp ở mục M6–M7 và [m6_m7_reliability_and_integrity.md](m6_m7_reliability_and_integrity.md).
 """
     text = f"""# M5 — Eval set v2 và kiểm tra theo slice
 
@@ -63,9 +63,9 @@ Slice được dựng từ nhãn, không dựa vào kết quả agent: `money_mo
 
 ## Gate theo slice
 
-Spec 2.1 thêm money_movement và adversarial; cùng denial đã có, cả ba dùng pass_rate, min 0.90 và `no_significant_drop=true`, blocking. Giữ nguyên các sàn toàn cục của starter v2, không chỉnh theo kết quả để ép qua/chặn. Spec v1 và baseline v1 giữ nguyên.
+Spec {spec['metric_spec_version']} thêm money_movement và adversarial; cùng denial đã có, cả ba dùng pass_rate, min 0.90 và `no_significant_drop=true`, blocking. Giữ nguyên các sàn toàn cục của starter v2, không chỉnh theo kết quả để ép qua/chặn. Spec v1 và baseline v1 giữ nguyên.
 
-`slice_check` lấy mean qua seed cho từng item rồi mean các item; paired bootstrap ghép theo item ID, dùng confidence/RNG/resample trong spec. Một slice không được lấy điểm tổng để thay thế. Slice bắt buộc thiếu/rỗng, metric thiếu/NaN/inf, coverage item không khớp hoặc CI không tính được đều có lý do và bị chặn; slice không blocking chỉ cảnh báo. Các kiểm tra này không thay cho integrity toàn report ở M7.
+`slice_check` lấy mean qua seed cho từng item rồi mean các item; paired bootstrap ghép theo item ID, dùng confidence/RNG/resample trong spec. Một slice không được lấy điểm tổng để thay thế. Slice bắt buộc thiếu/rỗng, metric thiếu/NaN/inf, coverage item không khớp hoặc CI không tính được đều có lý do và bị chặn; slice không blocking chỉ cảnh báo. Các kiểm tra này phối hợp với `integrity_check` toàn report ở M7.
 
 {summary.split(HEADING, 1)[1]}
 
@@ -88,7 +88,7 @@ Chạy trong `src/`:
 .\\.venv\\Scripts\\python.exe -m scripts.build_m5_docs
 ```
 
-Builder evidence dừng với lỗi nếu aggregate gate đã chặn regression, slice nào khác money_movement chặn nó, hoặc baseline/fixed/honest_refactor không qua. Không chạy toàn bộ test Advanced để tuyên bố M5 đạt, vì các test pass@k/pass^k và integrity dành M6–M7 vẫn còn TODO.
+Builder evidence dừng với lỗi nếu aggregate gate đã chặn regression, slice nào khác money_movement chặn nó, hoặc baseline/fixed/honest_refactor không qua. Xem tiếp [M6–M7 validation](m6_m7_reliability_and_integrity.md) cho kiểm định `pass@k`/`pass^k`, nhiễu A/A và `integrity_check`.
 """
     (DOCS / "m5_evalset_and_slices.md").write_text(text, encoding="utf-8")
     for name in ("eval_card.md", "PRD_v1.1.md"):
@@ -97,9 +97,12 @@ Builder evidence dừng với lỗi nếu aggregate gate đã chặn regression,
         path.write_text(core + "\n" + summary, encoding="utf-8")
     path = DOCS / "PR_DESCRIPTION.md"
     description = path.read_text(encoding="utf-8").split(HEADING, 1)[0].rstrip()
-    description = description.replace("chưa làm Advanced/Expert", "M5 đã hoàn thành local, M6–M7 còn chờ")
+    description = description.replace("chưa làm Advanced/Expert", "đã hoàn thành M5–M7 local")
     path.write_text(description + "\n" + summary, encoding="utf-8")
     print("wrote docs/m5_evalset_and_slices.md and M5 addenda in eval card, PRD, PR description")
+    if (DOCS / "evidence/m6_m7_validation.json").is_file():
+        from scripts.build_m6_m7_docs import main as build_m6_m7_docs
+        build_m6_m7_docs()
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 # M3 — Kiểm định grader
 
-Kết quả được sinh bằng `python -m scripts.build_m3_validation`, dùng eval set v1 SHA `fc7f989588fd`, metric spec **1.1**, 14 item × 5 seed `[11,22,33,44,55]` cho mỗi shape. Bằng chứng gồm toàn bộ report tại [evidence/m3_grader_validation.json](evidence/m3_grader_validation.json); các bản report riêng trong `src/reports/m3_*.json` cũng được harness sinh, không sửa tay.
+Kết quả được sinh bằng `python -m scripts.build_m3_validation`, dùng eval set v1 SHA `b5d0d977ba77`, metric spec **1.1**, 14 item × 5 seed `[11,22,33,44,55]` cho mỗi shape. Bằng chứng gồm toàn bộ report tại [evidence/m3_grader_validation.json](evidence/m3_grader_validation.json); các bản report riêng trong `src/reports/m3_*.json` cũng được harness sinh, không sửa tay.
 
 ## Các grader đã triển khai
 
@@ -17,10 +17,10 @@ Grader chỉ đọc trial và nhãn tách riêng. Không gọi model, không s�
 
 | Shape / run ID | pass_rate | refund_amount_correct | proposal_amount_correct | reply_amount_correct | approval_bypass |
 |---|---|---|---|---|---|
-| fixed / `E-fixed-20261118-fc7f` | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 0 |
-| seeded_regression / `E-seeded_regression-20261118-fc7f` | 0.7143 | 0.8571 | 0.7857 | 0.7857 | 0 |
-| honest_refactor / `E-honest_refactor-20261118-fc7f` | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 0 |
-| isolated misreport / `E-m3_isolated_misreport-20261118-fc7f` | 1.0000 | 1.0000 | 1.0000 | 0.8571 | 0 |
+| fixed / `E-fixed-20261118-b5d0` | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 0 |
+| seeded_regression / `E-seeded_regression-20261118-b5d0` | 0.7143 | 0.8571 | 0.7857 | 0.7857 | 0 |
+| honest_refactor / `E-honest_refactor-20261118-b5d0` | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 0 |
+| isolated misreport / `E-m3_isolated_misreport-20261118-b5d0` | 1.0000 | 1.0000 | 1.0000 | 0.8571 | 0 |
 
 Theo đúng định nghĩa `lab9.mutation.detect`, detection là tỷ lệ trial `seeded_regression` có `pass_rate=false` được ít nhất một grader khác giải thích; false alarm là tỷ lệ trial `fixed` bị một grader khác gắn lỗi. Metric có ngưỡng max xem True là lỗi, metric có min xem False là lỗi.
 

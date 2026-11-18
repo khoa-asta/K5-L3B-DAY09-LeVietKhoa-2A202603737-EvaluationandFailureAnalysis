@@ -15,6 +15,7 @@ from __future__ import annotations
 import argparse
 import json
 import platform
+import re
 import tempfile
 import time
 from datetime import date
@@ -145,6 +146,16 @@ def aggregate(rows: list[dict[str, Any]], metric_ids: list[str], k_values: list[
 def per_item(report: dict[str, Any], metric: str, slice_name: str | None = None) -> dict[str, float]:
     """Mean over seeds for each item -- the unit the paired bootstrap resamples.
     With slice_name, keep only rows whose item carries that slice tag (M5)."""
+    derived = re.fullmatch(r"pass_(at|hat)_(\d+)", metric)
+    if derived or metric == "pass_5":
+        trials: dict[str, list[bool]] = {}
+        for row in report["rows"]:
+            if slice_name is None or slice_name in (row.get("slices") or []):
+                trials.setdefault(row["item_id"], []).append(bool(row["pass_rate"]))
+        if metric == "pass_5":
+            return {key: float(all(values)) for key, values in trials.items()}
+        fn = stats.pass_at_k if derived[1] == "at" else stats.pass_hat_k
+        return {key: fn(len(values), sum(values), int(derived[2])) for key, values in trials.items()}
     acc: dict[str, list[float]] = {}
     for r in report["rows"]:
         if slice_name is not None and slice_name not in (r.get("slices") or []):
@@ -176,7 +187,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"  not writing {out}: a report with broken graders must not become a baseline")
         return 2
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(rep, ensure_ascii=False, indent=2), encoding="utf-8")
+    out.write_text(json.dumps(rep, ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
     print(f"wrote {out}")
     return 0
 

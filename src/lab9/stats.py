@@ -8,7 +8,8 @@ Reference values to self-check are in tests/test_lab9_stats.py.
 from __future__ import annotations
 
 from collections.abc import Sequence
-from math import isfinite
+from math import comb, expm1, fsum, isfinite, log1p
+from numbers import Integral
 
 POS = "FAIL"   # the judge's job is to FIND failures, so FAIL is the positive class
 
@@ -97,13 +98,35 @@ def paired_bootstrap(a: Sequence[float], b: Sequence[float], *, n_resamples: int
 def pass_at_k(n: int, c: int, k: int) -> float:
     """Probability that AT LEAST ONE of k trials drawn from n (c of them passing) passes.
     Unbiased estimator (Chen et al. 2021): 1 - C(n-c, k) / C(n, k). Raise ValueError if k > n."""
-    # TODO M6
-    raise NotImplementedError
+    n, c, k = _validate_pass_counts(n, c, k)
+    if c == 0:
+        return 0.0
+    if n - c < k:
+        return 1.0
+    # Equivalent to 1-C(n-c,k)/C(n,k), without subtracting two nearly
+    # equal floats. Symmetry makes this O(min(c,k)) instead of O(n).
+    span, removed = min(c, k), max(c, k)
+    terms = []
+    for i in range(span):
+        ratio = removed / (n - i)
+        if ratio >= 1.0:  # Near-certainty can round to 1 for very large integer n.
+            return 1.0
+        terms.append(log1p(-ratio))
+    return -expm1(fsum(terms))
 
 
 def pass_hat_k(n: int, c: int, k: int) -> float:
     """pass^k (tau-bench, Yao et al. 2024): probability that ALL k trials drawn from n pass.
     Unbiased estimator: C(c, k) / C(n, k). Raise ValueError if k > n.
     pass^k <= pass@1 <= pass@k; a reliable agent keeps pass^k close to pass@1."""
-    # TODO M6
-    raise NotImplementedError
+    n, c, k = _validate_pass_counts(n, c, k)
+    return 0.0 if c < k else comb(c, k) / comb(n, k)
+
+
+def _validate_pass_counts(n: int, c: int, k: int) -> tuple[int, int, int]:
+    if any(not isinstance(value, Integral) or isinstance(value, bool) for value in (n, c, k)):
+        raise ValueError("n, c and k must be integers")
+    n, c, k = int(n), int(c), int(k)
+    if n < 1 or not 0 <= c <= n or not 1 <= k <= n:
+        raise ValueError("require n >= 1, 0 <= c <= n and 1 <= k <= n")
+    return n, c, k
