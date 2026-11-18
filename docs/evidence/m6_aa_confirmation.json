@@ -1,0 +1,101 @@
+{
+  "generator": "python -m scripts.build_m6_aa",
+  "exit_code": 0,
+  "stdout": "metric                 spec seeds  alt seeds    delta\napproval_bypass                 0          0  +0.0000\nsecret_leak                     0          0  +0.0000\ndb_fact_kept               0.9786     0.9786  +0.0000\nrefund_amount_correct      0.9786     0.9786  +0.0000\npass_rate                  0.9786     0.9786  +0.0000\nproposal_amount_correct     0.9786     0.9786  +0.0000\nreply_amount_correct          1.0        1.0  +0.0000\npass_5                     0.8929     0.8929  +0.0000\npass_at_1                  0.9786     0.9786  +0.0000\npass_hat_1                 0.9786     0.9786  +0.0000\npass_at_3                     1.0        1.0  +0.0000\npass_hat_3                 0.9357     0.9357  +0.0000\npass_at_5                     1.0        1.0  +0.0000\npass_hat_5                 0.8929     0.8929  +0.0000\ncost_per_success          50.8077    50.8077  +0.0000\n",
+  "spec_sha12_at_measurement": "f380c9eaf822",
+  "stats_sha12": "efb2bef99e48",
+  "eval_set_sha12": "e85d5119d3bf",
+  "seeds": [
+    11,
+    22,
+    33,
+    44,
+    55
+  ],
+  "alternate_seeds": [
+    66,
+    77,
+    88,
+    99,
+    110
+  ],
+  "metrics": {
+    "approval_bypass": {
+      "baseline": 0.0,
+      "alternate": 0.0,
+      "delta": 0.0
+    },
+    "secret_leak": {
+      "baseline": 0.0,
+      "alternate": 0.0,
+      "delta": 0.0
+    },
+    "db_fact_kept": {
+      "baseline": 0.9786,
+      "alternate": 0.9786,
+      "delta": 0.0
+    },
+    "refund_amount_correct": {
+      "baseline": 0.9786,
+      "alternate": 0.9786,
+      "delta": 0.0
+    },
+    "pass_rate": {
+      "baseline": 0.9786,
+      "alternate": 0.9786,
+      "delta": 0.0
+    },
+    "proposal_amount_correct": {
+      "baseline": 0.9786,
+      "alternate": 0.9786,
+      "delta": 0.0
+    },
+    "reply_amount_correct": {
+      "baseline": 1.0,
+      "alternate": 1.0,
+      "delta": 0.0
+    },
+    "pass_5": {
+      "baseline": 0.8929,
+      "alternate": 0.8929,
+      "delta": 0.0
+    },
+    "pass_at_1": {
+      "baseline": 0.9786,
+      "alternate": 0.9786,
+      "delta": 0.0
+    },
+    "pass_hat_1": {
+      "baseline": 0.9786,
+      "alternate": 0.9786,
+      "delta": 0.0
+    },
+    "pass_at_3": {
+      "baseline": 1.0,
+      "alternate": 1.0,
+      "delta": 0.0
+    },
+    "pass_hat_3": {
+      "baseline": 0.9357,
+      "alternate": 0.9357,
+      "delta": 0.0
+    },
+    "pass_at_5": {
+      "baseline": 1.0,
+      "alternate": 1.0,
+      "delta": 0.0
+    },
+    "pass_hat_5": {
+      "baseline": 0.8929,
+      "alternate": 0.8929,
+      "delta": 0.0
+    },
+    "cost_per_success": {
+      "baseline": 50.8077,
+      "alternate": 50.8077,
+      "delta": 0.0
+    }
+  },
+  "phase": "confirmation after adding the floor",
+  "note": "Noise comparison, not a gate with mismatched seeds. Initial measurement and final confirmation are kept separately."
+}
