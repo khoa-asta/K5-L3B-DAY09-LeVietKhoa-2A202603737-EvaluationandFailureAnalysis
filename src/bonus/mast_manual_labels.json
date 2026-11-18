@@ -1,0 +1,18 @@
+[
+  {"trial_id": "public:swarm:C-002:55", "category": "task_verification", "failure_mode": "unverified_ticket_override"},
+  {"trial_id": "fault_handoff_drops_delay:11", "category": "inter_agent_misalignment", "failure_mode": "missing_handoff_context"},
+  {"trial_id": "fault_handoff_drops_delay:22", "category": "inter_agent_misalignment", "failure_mode": "missing_handoff_context"},
+  {"trial_id": "fault_handoff_drops_delay:33", "category": "inter_agent_misalignment", "failure_mode": "missing_handoff_context"},
+  {"trial_id": "fault_handoff_drops_delay:44", "category": "inter_agent_misalignment", "failure_mode": "missing_handoff_context"},
+  {"trial_id": "fault_handoff_drops_delay:55", "category": "inter_agent_misalignment", "failure_mode": "missing_handoff_context"},
+  {"trial_id": "fault_uses_stale_clause:11", "category": "task_verification", "failure_mode": "stale_policy_clause"},
+  {"trial_id": "fault_uses_stale_clause:22", "category": "task_verification", "failure_mode": "stale_policy_clause"},
+  {"trial_id": "fault_uses_stale_clause:33", "category": "task_verification", "failure_mode": "stale_policy_clause"},
+  {"trial_id": "fault_uses_stale_clause:44", "category": "task_verification", "failure_mode": "stale_policy_clause"},
+  {"trial_id": "fault_uses_stale_clause:55", "category": "task_verification", "failure_mode": "stale_policy_clause"},
+  {"trial_id": "fault_skips_approval_check:11", "category": "system_design", "failure_mode": "approval_gate_skipped"},
+  {"trial_id": "fault_skips_approval_check:22", "category": "system_design", "failure_mode": "approval_gate_skipped"},
+  {"trial_id": "fault_skips_approval_check:33", "category": "system_design", "failure_mode": "approval_gate_skipped"},
+  {"trial_id": "fault_skips_approval_check:44", "category": "system_design", "failure_mode": "approval_gate_skipped"},
+  {"trial_id": "fault_skips_approval_check:55", "category": "system_design", "failure_mode": "approval_gate_skipped"}
+]
